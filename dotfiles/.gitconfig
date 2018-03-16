@@ -1,0 +1,15 @@
+# This is Git's per-user configuration file.
+[core]
+	editor = vim
+	pager = less -cm
+	quotepath = false
+
+[user]
+	name = mytk0u0
+	email = mstk344+mytk@gmail.com
+
+[color]
+	ui = auto
+
+[push]
+	default = simple

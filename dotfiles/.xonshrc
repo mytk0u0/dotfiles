@@ -1,0 +1,31 @@
+from pathlib import Path
+
+# Xonshの設定
+$IGNOREEOF = True
+$INDENT = "    "
+$CASE_SENSITIVE_COMPLETIONS = False
+$XONSH_AUTOPAIR = True
+$AUTO_CD = True
+$XONSH_SHOW_TRACEBACK = True
+$SUPPRESS_BRANCH_TIMEOUT_MESSAGE = True
+$PROMPT = "{RED}[ {short_cwd} ] {prompt_end} "
+$BOTTOM_TOOLBAR = "{BLUE}{user}@{hostname}"
+$RIGHT_PROMPT = "{curr_branch}"
+
+_path_names = (
+    '~/local/bin',  # vimなどを~/localにコンパイルして使う場合
+    '~/Scripts',  # カスタムスクリプト置き場
+    '~/miniconda3/bin'  # xonshが実行できるなら、miniconda3が存在しているはず
+)
+
+for i in _path_names:
+    _path = Path(i).expanduser().absolute()
+    if _path.exists():
+        $PATH.insert(0, str(_path))
+
+if $(which nvim):  # neovimがある場合はviやvimでneovimを使う
+    aliases["vi"] = "nvim"
+    aliases["vim"] = "nvim"
+
+$XDG_CACHE_HOME = str(p'$HOME' / '.cache')
+$XDG_CONFIG_HOME = str(p'$HOME' / '.config')
