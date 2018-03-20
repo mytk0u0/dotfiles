@@ -1,3 +1,9 @@
+"""
+To use xonsh:
+
+echo 'exec $HOME/miniconda3/bin/xonsh -l' >> .bash_profile
+"""
+
 from pathlib import Path
 
 # Xonshの設定
@@ -12,20 +18,16 @@ $PROMPT = "{RED}[ {short_cwd} ] {prompt_end} "
 $BOTTOM_TOOLBAR = "{BLUE}{user}@{hostname}"
 $RIGHT_PROMPT = "{curr_branch}"
 
-_path_names = (
-    '~/local/bin',  # vimなどを~/localにコンパイルして使う場合
-    '~/Scripts',  # カスタムスクリプト置き場
-    '~/miniconda3/bin'  # xonshが実行できるなら、miniconda3が存在しているはず
-)
+# 環境変数の設定
+$PATH = [i for i in [
+    p'$HOME/miniconda3/bin',  # xonshが実行できるなら、miniconda3が存在しているはず
+    p'$HOME/local/bin',  # vimなどを~/localにコンパイルして使う場合
+    p'$HOME/Scripts',  # カスタムスクリプト置き場
+] if i.exists()] + $PATH
+$XDG_CACHE_HOME = str(p'$HOME/.cache')
+$XDG_CONFIG_HOME = str(p'$HOME/.config')
 
-for i in _path_names:
-    _path = Path(i).expanduser().absolute()
-    if _path.exists():
-        $PATH.insert(0, str(_path))
-
+# Neovimの設定
 if $(which nvim):  # neovimがある場合はviやvimでneovimを使う
     aliases["vi"] = "nvim"
     aliases["vim"] = "nvim"
-
-$XDG_CACHE_HOME = str(p'$HOME' / '.cache')
-$XDG_CONFIG_HOME = str(p'$HOME' / '.config')
